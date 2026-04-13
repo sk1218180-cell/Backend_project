@@ -25,7 +25,7 @@ if (password.length < 8) {
     // You can add more password complexity checks here if needed
 }
 
- const existedUser = User.findOne({
+ const existedUser = await User.findOne({
     $or: [{ username }, { email }]
 })
 
@@ -34,18 +34,32 @@ if (existedUser) {
 }
 
 const avatarLocalPath = req.files?.avatar[0]?.path;
-const coverImagePath = req.files?.coverImage[0]?.path;
+// const coverImagePath = req.files?.coverImage[0]?.path;
+// console.log("avatar path", req.files?.avatar?.[0]?.path);
+
+let coverImageLocalPath;
+if(req.files && Array.isArray(req.files.coverImage) 
+&& req.files.coverImage.length > 0) {
+    coverImageLocalPath = req.files.coverImage[0].path
+}
 
 if (!avatarLocalPath) {
     throw new ApiError(400, "Avatar file is required")
 }
+console.log("Avatar local path", avatarLocalPath);
+console.log("files", req.files);
 
  const avatar = await uploadOnCloudinary(avatarLocalPath)
- const coverImage = await uploadOnCloudinary(coverImagePath)
+ 
 
  if (!avatar) {
     throw new ApiError(400, "avatar file upload failed")
  }
+
+ let coverImage;
+    if (coverImageLocalPath) {
+        coverImage = await uploadOnCloudinary(coverImageLocalPath)
+    }
 
  const user = await User.create({
     fullName,

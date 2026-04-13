@@ -1,6 +1,10 @@
 import express from 'express';
 import cors from 'cors';
 import cookieParser  from 'cookie-parser';
+import dotenv from 'dotenv';
+
+dotenv.config();
+// console.log("cloud name", process.env.CLOUDINARY_CLOUD_NAME);
 
 
 const app = express();
