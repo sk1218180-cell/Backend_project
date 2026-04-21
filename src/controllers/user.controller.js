@@ -109,10 +109,10 @@ const loginUser = asyncHandler(async (req, res) => {
       if (!username && !email) {
         throw new ApiError(400, "Username or email is required")
       }
-// Here is an alternative to find user by email or username
-// if (!(email || username)) {
-//     throw new ApiError(400, "Username or email is required")
-// }
+       // Here is an alternative to find user by email or username
+       // if (!(email || username)) {
+       //     throw new ApiError(400, "Username or email is required")
+       // }
         const user = await User.findOne({
             $or: [{email}, {username}]
         })
@@ -182,7 +182,7 @@ const logoutUser = asyncHandler(async (req, res) => {
 const refreshAccessToken = asyncHandler(async(req, res) =>{
     const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
 
-    if (incomingRefreshToken) {
+    if (!incomingRefreshToken) {
         throw new ApiError(401, "Unauthorized request")
     }
 
