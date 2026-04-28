@@ -17,6 +17,7 @@ const userSchema = new Schema({
         unique: true,
         lowercase: true,
         trim: true,
+        index: true
     },
      fullName: {
         type: String,
@@ -28,9 +29,17 @@ const userSchema = new Schema({
         type: String, // cloudinary url
         required: true,
     },
+    avatarPublicId: {
+        type: String, // cloudinary public id for deletion
+    },
+
     coverImage: {
         type: String, // cloudinary url
     },
+    coverImagePublicId: {
+        type: String, // cloudinary public id for deletion
+    },
+
     watchHistory:[
         {
             type: Schema.Types.ObjectId,
